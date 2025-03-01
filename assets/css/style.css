@@ -182,6 +182,10 @@ body {
   transition: 0.3s;
 }
 
+.profile-media-sosial a {
+  color: white;
+}
+
 .profile-media-sosial i:hover {
   color: var(--highlight);
 }
