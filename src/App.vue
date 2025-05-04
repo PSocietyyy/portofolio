@@ -244,6 +244,16 @@ const projects = ref([
     description: 'Alat untuk memindai port jaringan.',
     link: 'https://github.com/PSocietyyy/Port_scanner',
   },
+  {
+    title: 'Diabetes Diagnosis',
+    description: 'Diagnosis apakah seseorang terkena diabetes atau tidak',
+    link: 'https://www.kaggle.com/code/psocietyy/diabetes-diagnosis-using-svm',
+  },
+  {
+    title: 'Prediction Energy Consumption',
+    description: 'Memprediksi konsumsi energi berdasarkan tipe bangunan',
+    link: 'https://www.kaggle.com/code/psocietyy/prediction-energy-consumption',
+  },
 ])
 
 // Fungsi untuk toggle hamburger menu
