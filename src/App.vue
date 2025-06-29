@@ -72,7 +72,7 @@
             >
           </p>
           <p class="text-gray-600 text-sm sm:text-base">
-            Backend Developer dengan fokus pada PHP, Laravel, Spring, dan MySQL. Sedikit pengalaman
+            FullStack Developer dengan fokus pada PHP, Laravel, React, dan MySQL. Sedikit pengalaman
             di bidang AI.
           </p>
         </div>
@@ -175,7 +175,7 @@
             <h3 class="text-lg sm:text-xl font-semibold">{{ project.title }}</h3>
             <p class="text-gray-600 mb-2 text-sm sm:text-base">{{ project.description }}</p>
             <a :href="project.link" class="text-indigo-600 hover:underline text-sm sm:text-base"
-              >Lihat di GitHub</a
+              >Lihat</a
             >
           </div>
         </div>
@@ -234,6 +234,11 @@ const menuOpen = ref(false)
 const searchQuery = ref('')
 const showBackToTop = ref(false)
 const projects = ref([
+  {
+    title: 'Task Management Landing Page',
+    description: 'Landing Page responsif dan terdapat animasi.',
+    link: 'https://ferdiansyah-portofolio-task.netlify.app/',
+  },
   {
     title: 'Recommendation Film',
     description: 'Sistem rekomendasi film sederhana.',
