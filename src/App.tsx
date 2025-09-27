@@ -238,7 +238,7 @@ const App = () => {
                 inovatif melalui pengembangan web dan machine learning.
               </p>
 
-              <div className="flex justify-start mb-8">
+              <div className="flex justify-center md:justify-start mb-8">
                 <button
                   onClick={() => scrollToSection("projects")}
                   className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
@@ -463,7 +463,7 @@ const App = () => {
               berkolaborasi!
             </p>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8 justify-center max-w-3xl mx-auto">
               <a
                 href="mailto:ferdiansyahpratama716@gmail.com"
                 className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-blue-50 hover:shadow-md transition-all group"
