@@ -293,8 +293,13 @@ const App = () => {
               <p className="text-gray-600 leading-relaxed">
                 Sebagai seseorang yang menyukai tantangan, saya selalu antusias
                 menghadapi masalah-masalah kompleks dalam pengembangan aplikasi
-                web modern. Ketika tidak sedang coding, saya aktif belajar
-                teknologi baru.
+                web modern. Saat ini, saya juga tengah fokus mengembangkan
+                kemampuan saya di bidang{" "}
+                <span className="font-medium">Artificial Intelligence</span>{" "}
+                karena saya ingin menjadi seorang{" "}
+                <span className="font-medium">AI Engineer</span> yang mampu
+                membuat solusi pintar dan inovatif. Ketika tidak sedang coding,
+                saya aktif belajar teknologi baru.
               </p>
 
               <div className="grid grid-cols-2 gap-6 pt-6">
@@ -358,7 +363,7 @@ const App = () => {
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                    className="w-full h-48 object-contain md:object-cover hover:scale-105 transition-transform duration-300"
                   />
                 </div>
 
@@ -420,7 +425,7 @@ const App = () => {
                   <img
                     src={certificate.image}
                     alt={certificate.title}
-                    className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                    className="w-full h-48 object-contain md:object-cover hover:scale-105 transition-transform duration-300"
                   />
                 </div>
 
