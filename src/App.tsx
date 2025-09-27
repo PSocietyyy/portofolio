@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Home,
   User,
@@ -6,15 +6,9 @@ import {
   Briefcase,
   Mail,
   Github,
-  ExternalLink,
-  ChevronDown,
   Menu,
   X,
-  Linkedin,
-  Twitter,
   Instagram,
-  Download,
-  Phone,
   Award,
 } from "lucide-react";
 
