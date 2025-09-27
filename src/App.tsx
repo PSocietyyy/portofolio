@@ -238,7 +238,7 @@ const App = () => {
                 inovatif melalui pengembangan web dan machine learning.
               </p>
 
-              <div className="flex justify-center md:justify-start mb-8">
+              <div className="flex w-full justify-center md:justify-start mb-8">
                 <button
                   onClick={() => scrollToSection("projects")}
                   className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
