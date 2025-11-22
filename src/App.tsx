@@ -10,6 +10,7 @@ import {
   X,
   Instagram,
   Award,
+  MessageCircle,
 } from "lucide-react";
 
 // Import
@@ -130,6 +131,23 @@ const App = () => {
     },
   ];
 
+  const testimonials = [
+    {
+      id: 1,
+      name: "Arkadani Fathir Fahrezi",
+      project: "PPDB Web dengan Custom Test",
+      message:
+        "Ferdiansyah sangat membantu dalam pengembangan sistem PPDB web dengan custom test. Kode yang dihasilkan rapi, terstruktur, dan mudah dipahami. Sangat profesional dan responsif!",
+    },
+    {
+      id: 2,
+      name: "Elang M Riefky",
+      project: "E-Commerce Custom Product",
+      message:
+        "Saya sangat terbantu dengan kontribusi Ferdiansyah dalam project E-Commerce, khususnya dalam fitur custom product. Pengerjaannya cepat dan hasil yang diberikan sangat memuaskan.",
+    },
+  ];
+
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
     setIsMenuOpen(false);
@@ -145,6 +163,7 @@ const App = () => {
         "skills",
         "certificates",
         "projects",
+        "testimonials",
         "contact",
       ];
       const scrollPosition = window.scrollY + 100;
@@ -184,6 +203,7 @@ const App = () => {
                 { id: "skills", label: "Skills", icon: Code },
                 { id: "projects", label: "Projects", icon: Briefcase },
                 { id: "certificates", label: "Certificates", icon: Award },
+                { id: "testimonials", label: "Testimonials", icon: MessageCircle },
                 { id: "contact", label: "Contact", icon: Mail },
               ].map(({ id, label, icon: Icon }) => (
                 <button
@@ -219,6 +239,7 @@ const App = () => {
                 { id: "skills", label: "Skills", icon: Code },
                 { id: "projects", label: "Projects", icon: Briefcase },
                 { id: "certificates", label: "Certificates", icon: Award },
+                { id: "testimonials", label: "Testimonials", icon: MessageCircle },
                 { id: "contact", label: "Contact", icon: Mail },
               ].map(({ id, label, icon: Icon }) => (
                 <button
@@ -463,6 +484,39 @@ const App = () => {
                       {certificate.date}
                     </p>
                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-blue-600">
+            Testimoni
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all p-8 border-l-4 border-blue-600"
+              >
+                <MessageCircle className="text-blue-600 mb-4" size={32} />
+
+                <p className="text-gray-600 leading-relaxed mb-6 italic">
+                  "{testimonial.message}"
+                </p>
+
+                <div className="border-t border-gray-200 pt-4">
+                  <h3 className="text-lg font-semibold text-blue-600 mb-1">
+                    {testimonial.name}
+                  </h3>
+                  <p className="text-gray-500 text-sm">
+                    {testimonial.project}
+                  </p>
                 </div>
               </div>
             ))}
