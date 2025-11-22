@@ -18,6 +18,8 @@ import AboutMe from "./assets/aboutme.jpg";
 import ECommerce from "./assets/project-ecommerce-editor-product.jpg";
 import Marketplace from "./assets/project-marketplace.jpg";
 import RecomendationFilm from "./assets/project-rekomendation-film.jpg";
+import LMS from "./assets/LMS.jpeg";
+import Siakad from "./assets/Siakad.jpeg";
 
 // Sertifikat
 import SertifLinuxFundamental from "./assets/linux-fundamental.jpg";
@@ -92,6 +94,24 @@ const App = () => {
     },
     {
       id: 2,
+      title: "Sistem Akademik Kampus (SIAKAD)",
+      description:
+        "Sistem informasi akademik untuk mempermudah pengelolaan aktivitas perkuliahan. Mulai dari pendataan mahasiswa & dosen, KRS/KHS, jadwal kuliah, presensi, hingga rapor nilai yang terintegrasi secara real-time.",
+      image: Siakad,
+      tags: ["Laravel", "Livewire", "MySQL"],
+    },
+
+    {
+      id: 3,
+      title: "Learning Management System (LMS)",
+      description:
+        "Platform pembelajaran digital yang mendukung proses belajar mengajar modern dengan fitur manajemen course, modul pembelajaran, quiz interaktif, pengumpulan tugas, serta sistem penilaian otomatis.",
+      image: LMS,
+      tags: ["Laravel", "Livewire", "MySQL"],
+    },
+
+    {
+      id: 4,
       title: "Marketplace Platform",
       description:
         "Platform marketplace multi-vendor dengan sistem pembayaran terintegrasi dan manajemen inventori",
@@ -100,7 +120,7 @@ const App = () => {
       tags: ["PHP", "Laravel", "MySQL"],
     },
     {
-      id: 3,
+      id: 5,
       title: "Film Recommendation System",
       description:
         "Sistem rekomendasi film menggunakan machine learning untuk memberikan saran film berdasarkan film yang sedang ditonton",
