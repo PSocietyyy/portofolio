@@ -146,6 +146,20 @@ const App = () => {
       message:
         "Saya sangat terbantu dengan kontribusi Ferdiansyah dalam project E-Commerce, khususnya dalam fitur custom product. Pengerjaannya cepat dan hasil yang diberikan sangat memuaskan.",
     },
+    {
+      id: 3,
+      name: "Fachri Saleano D",
+      project: "Pembelian LMS",
+      message:
+        "Saya puas dengan kualitas LMS yang disediakan Ferdiansyah. Proses pengerjaan cepat, fitur lengkap, dan sangat sesuai kebutuhan. Layanan after-sales juga sangat membantu.",
+    },
+    {
+      id: 4,
+      name: "Galih Kusumadinata",
+      project: "LMS",
+      message:
+        "Platform LMS yang dikembangkan sangat mendukung proses belajar mengajar modern. Fitur manajemen course, modul pembelajaran, quiz interaktif, pengumpulan tugas, serta sistem penilaian otomatis bekerja dengan sangat baik dan mempermudah seluruh alur pembelajaran.",
+    },
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -203,7 +217,11 @@ const App = () => {
                 { id: "skills", label: "Skills", icon: Code },
                 { id: "projects", label: "Projects", icon: Briefcase },
                 { id: "certificates", label: "Certificates", icon: Award },
-                { id: "testimonials", label: "Testimonials", icon: MessageCircle },
+                {
+                  id: "testimonials",
+                  label: "Testimonials",
+                  icon: MessageCircle,
+                },
                 { id: "contact", label: "Contact", icon: Mail },
               ].map(({ id, label, icon: Icon }) => (
                 <button
@@ -239,7 +257,11 @@ const App = () => {
                 { id: "skills", label: "Skills", icon: Code },
                 { id: "projects", label: "Projects", icon: Briefcase },
                 { id: "certificates", label: "Certificates", icon: Award },
-                { id: "testimonials", label: "Testimonials", icon: MessageCircle },
+                {
+                  id: "testimonials",
+                  label: "Testimonials",
+                  icon: MessageCircle,
+                },
                 { id: "contact", label: "Contact", icon: Mail },
               ].map(({ id, label, icon: Icon }) => (
                 <button
@@ -514,9 +536,7 @@ const App = () => {
                   <h3 className="text-lg font-semibold text-blue-600 mb-1">
                     {testimonial.name}
                   </h3>
-                  <p className="text-gray-500 text-sm">
-                    {testimonial.project}
-                  </p>
+                  <p className="text-gray-500 text-sm">{testimonial.project}</p>
                 </div>
               </div>
             ))}
