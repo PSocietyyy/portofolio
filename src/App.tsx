@@ -12,155 +12,87 @@ import {
   Award,
   MessageCircle,
 } from "lucide-react";
+import supabase from "../utils/supabase";
+import StorageImage from "./components/StorageImage";
 
-// Import
-import ProfilePicture from "./assets/profile-picture.jpeg";
-import AboutMe from "./assets/aboutme.jpg";
-import ECommerce from "./assets/project-ecommerce-editor-product.jpg";
-import Marketplace from "./assets/project-marketplace.jpg";
-import RecomendationFilm from "./assets/project-rekomendation-film.jpg";
-import LMS from "./assets/LMS.jpeg";
-import Siakad from "./assets/Siakad.jpeg";
+interface Profile {
+  full_name: string;
+  tagline: string;
+  bio: string;
+  about_title: string;
+  about_paragraph_1: string;
+  about_paragraph_2: string;
+  experience: string;
+  status: string;
+  email: string;
+  github: string;
+  instagram: string;
+  profile_image_url: string;
+  about_image_url: string;
+}
 
-// Sertifikat
-import SertifLinuxFundamental from "./assets/linux-fundamental.jpg";
-import SertifCybrary from "./assets/cybrary-security.jpg";
-import SertifLinuxKernel from "./assets/sertif-linux-kernel.jpg";
+interface Skill {
+  id: string;
+  name: string;
+  image_url: string | null;
+}
 
-// Skill
-import SkillGithub from "./assets/skills/Github.jpg";
-import SkillJavascript from "./assets/skills/JavaScript.jpg";
-import SkillTypeScript from "./assets/skills/TypeScript.png";
-import SkillReactJS from "./assets/skills/React.jpg";
-import SkillTailwind from "./assets/skills/TailwindCss.png";
-import SkillPHP from "./assets/skills/PHP.png";
-import SkillMysql from "./assets/skills/MySql.png";
-import SkillLinux from "./assets/skills/Linux.png";
-import SkillLaravel from "./assets/skills/Laravel.png";
-import SkillPython from "./assets/skills/Python.png";
-import SkillScikitLearn from "./assets/skills/Scikit-learn.png";
-import SkillTensorFlow from "./assets/skills/TensorFlow.png";
+interface Project {
+  id: string;
+  title: string;
+  description: string | null;
+  image_url: string | null;
+  github_url: string | null;
+  tags: string[];
+}
+
+interface Certificate {
+  id: string;
+  title: string;
+  issuer: string | null;
+  date: string | null;
+  image_url: string | null;
+}
+
+interface Testimonial {
+  id: string;
+  name: string;
+  project: string | null;
+  message: string | null;
+}
 
 const App = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const skills = [
-    { name: "PHP", image: SkillPHP },
-    { name: "JavaScript", image: SkillJavascript },
-    { name: "TypeScript", image: SkillTypeScript },
-    { name: "Python", image: SkillPython },
-    { name: "TailwindCSS", image: SkillTailwind },
-    { name: "MySQL", image: SkillMysql },
-    { name: "Laravel", image: SkillLaravel },
-    { name: "React", image: SkillReactJS },
-    { name: "Linux", image: SkillLinux },
-    { name: "GitHub", image: SkillGithub },
-    { name: "Scikit-Learn", image: SkillScikitLearn },
-    { name: "TensorFlow", image: SkillTensorFlow },
-  ];
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const certificates = [
-    {
-      id: 1,
-      title: "Linux Fundamental",
-      issuer: "Aguna Course",
-      date: "2024",
-      image: SertifLinuxFundamental,
-    },
-    {
-      id: 2,
-      title: "Defensif Security Operation",
-      issuer: "Cybrary",
-      date: "2024",
-      image: SertifCybrary,
-    },
-    {
-      id: 3,
-      title: "Linux Kernel Development",
-      issuer: "Linux Foundation",
-      date: "2024",
-      image: SertifLinuxKernel,
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const [profileRes, skillsRes, projectsRes, certsRes, testimonialsRes] =
+        await Promise.all([
+          supabase.from("profiles").select("*").limit(1).single(),
+          supabase.from("skills").select("*").order("sort_order"),
+          supabase.from("projects").select("*").order("sort_order"),
+          supabase.from("certificates").select("*").order("sort_order"),
+          supabase.from("testimonials").select("*").order("sort_order"),
+        ]);
 
-  const projects = [
-    {
-      id: 1,
-      title: "E-Commerce Editor Product",
-      description:
-        "Platform e-commerce dengan fitur editor produk yang memungkinkan seller untuk mengedit detail produk secara real-time",
-      image: ECommerce,
-      tags: ["React", "Laravel", "MySQL"],
-    },
-    {
-      id: 2,
-      title: "Sistem Akademik Kampus (SIAKAD)",
-      description:
-        "Sistem informasi akademik untuk mempermudah pengelolaan aktivitas perkuliahan. Mulai dari pendataan mahasiswa & dosen, KRS/KHS, jadwal kuliah, presensi, hingga rapor nilai yang terintegrasi secara real-time.",
-      image: Siakad,
-      tags: ["Laravel", "Livewire", "MySQL"],
-    },
+      if (profileRes.data) setProfile(profileRes.data);
+      setSkills(skillsRes.data || []);
+      setProjects(projectsRes.data || []);
+      setCertificates(certsRes.data || []);
+      setTestimonials(testimonialsRes.data || []);
+      setLoading(false);
+    };
 
-    {
-      id: 3,
-      title: "Learning Management System (LMS)",
-      description:
-        "Platform pembelajaran digital yang mendukung proses belajar mengajar modern dengan fitur manajemen course, modul pembelajaran, quiz interaktif, pengumpulan tugas, serta sistem penilaian otomatis.",
-      image: LMS,
-      tags: ["Laravel", "Livewire", "MySQL"],
-    },
-
-    {
-      id: 4,
-      title: "Marketplace Platform",
-      description:
-        "Platform marketplace multi-vendor dengan sistem pembayaran terintegrasi dan manajemen inventori",
-      image: Marketplace,
-      github: "https://github.com/PSocietyyy/marketplace",
-      tags: ["PHP", "Laravel", "MySQL"],
-    },
-    {
-      id: 5,
-      title: "Film Recommendation System",
-      description:
-        "Sistem rekomendasi film menggunakan machine learning untuk memberikan saran film berdasarkan film yang sedang ditonton",
-      image: RecomendationFilm,
-      github: "https://github.com/PSocietyyy/recomendation_film",
-      tags: ["Python", "Scikit-Learn"],
-    },
-  ];
-
-  const testimonials = [
-    {
-      id: 1,
-      name: "Arkadani Fathir Fahrezi",
-      project: "PPDB Web dengan Custom Test",
-      message:
-        "Ferdiansyah sangat membantu dalam pengembangan sistem PPDB web dengan custom test. Kode yang dihasilkan rapi, terstruktur, dan mudah dipahami. Sangat profesional dan responsif!",
-    },
-    {
-      id: 2,
-      name: "Elang M Riefky",
-      project: "E-Commerce Custom Product",
-      message:
-        "Saya sangat terbantu dengan kontribusi Ferdiansyah dalam project E-Commerce, khususnya dalam fitur custom product. Pengerjaannya cepat dan hasil yang diberikan sangat memuaskan.",
-    },
-    {
-      id: 3,
-      name: "Fachri Saleano D",
-      project: "Pembelian LMS",
-      message:
-        "Saya puas dengan kualitas LMS yang disediakan Ferdiansyah. Proses pengerjaan cepat, fitur lengkap, dan sangat sesuai kebutuhan. Layanan after-sales juga sangat membantu.",
-    },
-    {
-      id: 4,
-      name: "Galih Kusumadinata",
-      project: "LMS",
-      message:
-        "Platform LMS yang dikembangkan sangat mendukung proses belajar mengajar modern. Fitur manajemen course, modul pembelajaran, quiz interaktif, pengumpulan tugas, serta sistem penilaian otomatis bekerja dengan sangat baik dan mempermudah seluruh alur pembelajaran.",
-    },
-  ];
+    fetchData();
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -201,13 +133,36 @@ const App = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-gray-500">Memuat portfolio...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const displayName = profile?.full_name || "Portfolio";
+  const displayEmail = profile?.email || "";
+  const displayGithub = profile?.github || "";
+  const displayInstagram = profile?.instagram || "";
+  const githubUsername = displayGithub.replace("https://github.com/", "");
+  const instagramUsername = displayInstagram
+    .replace("https://instagram.com/", "")
+    .replace("https://www.instagram.com/", "");
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <div className="text-2xl font-bold text-blue-600">Ferdiansyah</div>
+            <div className="text-2xl font-bold text-blue-600">
+              {displayName.split(" ")[0]}
+            </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
@@ -285,20 +240,17 @@ const App = () => {
       >
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Content - Left Side */}
             <div className="text-center md:text-left order-2 md:order-1">
               <h1 className="text-4xl md:text-6xl font-bold mb-6 text-blue-600">
-                Ferdiansyah Pratama
+                {displayName}
               </h1>
 
               <p className="text-xl md:text-2xl text-gray-600 mb-6">
-                Freelancer Web Developer & Machine Learning Enthusiast
+                {profile?.tagline || ""}
               </p>
 
               <p className="text-lg text-gray-500 mb-8 leading-relaxed">
-                Saya menyukai tantangan dalam problem solving dan menulis kode
-                yang rapi serta terstruktur. Saya menciptakan solusi digital
-                inovatif melalui pengembangan web dan machine learning.
+                {profile?.bio || ""}
               </p>
 
               <div className="flex w-full justify-center md:justify-start mb-8">
@@ -311,13 +263,18 @@ const App = () => {
               </div>
             </div>
 
-            {/* Image - Right Side */}
             <div className="flex justify-center order-1 md:order-2">
-              <img
-                src={ProfilePicture}
-                alt="Ferdiansyah Pratama"
-                className="w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-blue-500 shadow-xl object-cover"
-              />
+              {profile?.profile_image_url ? (
+                <StorageImage
+                  path={profile.profile_image_url}
+                  alt={displayName}
+                  className="w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-blue-500 shadow-xl object-cover"
+                />
+              ) : (
+                <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-blue-500 shadow-xl bg-gray-100 flex items-center justify-center">
+                  <User size={64} className="text-gray-400" />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -332,37 +289,30 @@ const App = () => {
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img
-                src={AboutMe}
-                alt="About Ferdiansyah"
-                className="rounded-lg shadow-xl"
-              />
+              {profile?.about_image_url ? (
+                <StorageImage
+                  path={profile.about_image_url}
+                  alt="About"
+                  className="rounded-lg shadow-xl"
+                />
+              ) : (
+                <div className="w-full h-64 bg-gray-200 rounded-lg shadow-xl flex items-center justify-center">
+                  <User size={48} className="text-gray-400" />
+                </div>
+              )}
             </div>
 
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold text-blue-600">
-                Halo! Saya Ferdiansyah, mahasiswa yang passionate dengan
-                teknologi
+                {profile?.about_title || ""}
               </h3>
 
               <p className="text-gray-600 leading-relaxed">
-                Saya adalah mahasiswa Pendidikan Teknik Informatika yang aktif
-                sebagai freelancer dengan pengalaman lebih dari 1 tahun. Saya
-                memiliki passion khusus dalam problem solving dan selalu
-                berusaha menulis kode yang rapi, terstruktur, dan mudah
-                dipelihara.
+                {profile?.about_paragraph_1 || ""}
               </p>
 
               <p className="text-gray-600 leading-relaxed">
-                Sebagai seseorang yang menyukai tantangan, saya selalu antusias
-                menghadapi masalah-masalah kompleks dalam pengembangan aplikasi
-                web modern. Saat ini, saya juga tengah fokus mengembangkan
-                kemampuan saya di bidang{" "}
-                <span className="font-medium">Artificial Intelligence</span>{" "}
-                karena saya ingin menjadi seorang{" "}
-                <span className="font-medium">AI Engineer</span> yang mampu
-                membuat solusi pintar dan inovatif. Ketika tidak sedang coding,
-                saya aktif belajar teknologi baru.
+                {profile?.about_paragraph_2 || ""}
               </p>
 
               <div className="grid grid-cols-2 gap-6 pt-6">
@@ -370,11 +320,11 @@ const App = () => {
                   <h4 className="font-semibold text-blue-600 mb-2">
                     Pengalaman
                   </h4>
-                  <p className="text-gray-500">1+ Tahun Freelancer</p>
+                  <p className="text-gray-500">{profile?.experience || ""}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-blue-600 mb-2">Status</h4>
-                  <p className="text-gray-500">Mahasiswa Aktif</p>
+                  <p className="text-gray-500">{profile?.status || ""}</p>
                 </div>
               </div>
             </div>
@@ -390,16 +340,22 @@ const App = () => {
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {skills.map((skill, index) => (
+            {skills.map((skill) => (
               <div
-                key={index}
+                key={skill.id}
                 className="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all"
               >
-                <img
-                  src={skill.image}
-                  alt={skill.name}
-                  className="w-16 h-16 mx-auto mb-4 object-contain"
-                />
+                {skill.image_url ? (
+                  <StorageImage
+                    path={skill.image_url}
+                    alt={skill.name}
+                    className="w-16 h-16 mx-auto mb-4 object-contain"
+                  />
+                ) : (
+                  <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <Code size={24} className="text-gray-400" />
+                  </div>
+                )}
                 <h3 className="text-lg font-semibold text-gray-700">
                   {skill.name}
                 </h3>
@@ -423,11 +379,17 @@ const App = () => {
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all overflow-hidden"
               >
                 <div className="relative overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-contain md:object-cover hover:scale-105 transition-transform duration-300"
-                  />
+                  {project.image_url ? (
+                    <StorageImage
+                      path={project.image_url}
+                      alt={project.title}
+                      className="w-full h-48 object-contain md:object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
+                      <Briefcase size={32} className="text-gray-400" />
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-6">
@@ -439,7 +401,7 @@ const App = () => {
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag, index) => (
+                    {project.tags?.map((tag, index) => (
                       <span
                         key={index}
                         className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"
@@ -450,9 +412,11 @@ const App = () => {
                   </div>
 
                   <div className="flex space-x-3">
-                    {project.github ? (
+                    {project.github_url ? (
                       <a
-                        href={project.github}
+                        href={project.github_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all flex-1 justify-center"
                       >
                         <Github size={18} />
@@ -485,11 +449,17 @@ const App = () => {
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all overflow-hidden"
               >
                 <div className="relative overflow-hidden">
-                  <img
-                    src={certificate.image}
-                    alt={certificate.title}
-                    className="w-full h-48 object-contain md:object-cover hover:scale-105 transition-transform duration-300"
-                  />
+                  {certificate.image_url ? (
+                    <StorageImage
+                      path={certificate.image_url}
+                      alt={certificate.title}
+                      className="w-full h-48 object-contain md:object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
+                      <Award size={32} className="text-gray-400" />
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-6">
@@ -563,51 +533,59 @@ const App = () => {
             </p>
 
             <div className="grid md:grid-cols-3 gap-8 justify-center max-w-3xl mx-auto">
-              <a
-                href="mailto:ferdiansyahpratama716@gmail.com"
-                className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-blue-50 hover:shadow-md transition-all group"
-              >
-                <Mail
-                  className="text-blue-600 group-hover:text-blue-700 mb-4"
-                  size={32}
-                />
-                <h4 className="font-semibold text-gray-800 mb-2">Email</h4>
-                <span className="text-gray-600 text-sm text-center">
-                  ferdiansyahpratama716@gmail.com
-                </span>
-              </a>
+              {displayEmail && (
+                <a
+                  href={`mailto:${displayEmail}`}
+                  className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-blue-50 hover:shadow-md transition-all group"
+                >
+                  <Mail
+                    className="text-blue-600 group-hover:text-blue-700 mb-4"
+                    size={32}
+                  />
+                  <h4 className="font-semibold text-gray-800 mb-2">Email</h4>
+                  <span className="text-gray-600 text-sm text-center">
+                    {displayEmail}
+                  </span>
+                </a>
+              )}
 
-              <a
-                href="https://github.com/PSocietyyy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-blue-50 hover:shadow-md transition-all group"
-              >
-                <Github
-                  className="text-blue-600 group-hover:text-blue-700 mb-4"
-                  size={32}
-                />
-                <h4 className="font-semibold text-gray-800 mb-2">GitHub</h4>
-                <span className="text-gray-600 text-sm text-center">
-                  PSocietyyy
-                </span>
-              </a>
+              {displayGithub && (
+                <a
+                  href={displayGithub}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-blue-50 hover:shadow-md transition-all group"
+                >
+                  <Github
+                    className="text-blue-600 group-hover:text-blue-700 mb-4"
+                    size={32}
+                  />
+                  <h4 className="font-semibold text-gray-800 mb-2">GitHub</h4>
+                  <span className="text-gray-600 text-sm text-center">
+                    {githubUsername}
+                  </span>
+                </a>
+              )}
 
-              <a
-                href="https://instagram.com/ferdiansyah_p69"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-blue-50 hover:shadow-md transition-all group"
-              >
-                <Instagram
-                  className="text-blue-600 group-hover:text-blue-700 mb-4"
-                  size={32}
-                />
-                <h4 className="font-semibold text-gray-800 mb-2">Instagram</h4>
-                <span className="text-gray-600 text-sm text-center">
-                  @ferdiansyah_p69
-                </span>
-              </a>
+              {displayInstagram && (
+                <a
+                  href={displayInstagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-blue-50 hover:shadow-md transition-all group"
+                >
+                  <Instagram
+                    className="text-blue-600 group-hover:text-blue-700 mb-4"
+                    size={32}
+                  />
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Instagram
+                  </h4>
+                  <span className="text-gray-600 text-sm text-center">
+                    @{instagramUsername}
+                  </span>
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -617,8 +595,8 @@ const App = () => {
       <footer className="py-8 px-4 border-t border-gray-200 bg-white">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-500">
-            © 2025 Ferdiansyah Pratama. All rights reserved. Dibangun dengan
-            React & TailwindCSS
+            © 2025 {displayName}. All rights reserved. Dibangun dengan React &
+            TailwindCSS
           </p>
         </div>
       </footer>
